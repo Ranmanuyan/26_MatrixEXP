@@ -9,8 +9,8 @@
 
 // NOTE ::
 // * This read_data function, the last row is useless, i.e., in the data file, you need put an extra row at the end
-// * then the collected data are correct
-//  not phase-type, just because of the read data readMatrix function
+// * then the collected data are correct, so in the data file (n+1) * n
+//  not because of phase-type, just because of the read data readMatrix function
 
 
 #include <Eigen/unsupported/Eigen/MatrixFunctions>
@@ -56,17 +56,6 @@ double cdfCal(MatrixXd Qstar, VectorXd a, double x1){
     mat.resize(0,0);
     return cdf;
 }
-
-// for test to see the matrix
-// MatrixXd matCal(MatrixXd Qstar, VectorXd a, double x1){
-//     MatrixXd mat = (x1 * Qstar).exp();
-//     return mat;
-// }
-
-
-
-
-
 
 #define MAXBUFSIZE  ((int) 1e6)
 
@@ -166,96 +155,17 @@ int main(int argc, char const *argv[]){
    // here we have (k+1 * k), H_(k+1, k)==?
    
    MatrixXd H1 = H.topRows(k);
-
    double cdf2 =  1- (v.norm() * V *(((450*H1).exp())* e1))(0);
    std::chrono::steady_clock::time_point end2 = std::chrono::steady_clock::now();
    std::cout << "Time Costs Krylov= " << std::chrono::duration_cast<std::chrono::microseconds>(end2 - begin2).count() << "[microseconds]" << std::endl;
    std::cout << cdf2 << std::endl;
 
-    //  first mat*t
-   // std::chrono::steady_clock::time_point begin3 = std::chrono::steady_clock::now();
-   // MatrixXd Hm(31, 30);
-   // MatrixXd Vm(57, 30);
-   // arnoldi(100*A, v, 30,  Vm,  Hm);
-   // MatrixXd H1m = Hm.topRows(30);
-   // double cdf3 =  1- (v.norm() * Vm *(((H1m).exp())* e1))(0);
-   // std::chrono::steady_clock::time_point end3 = std::chrono::steady_clock::now();
-   // std::cout << "Time Costs = " << std::chrono::duration_cast<std::chrono::microseconds>(end3 - begin3).count() << "[microseconds]" << std::endl;
-   // std::cout << cdf3 << std::endl;
-
-
-
-
-
     return 0;
 }
 
 
-
-
-
-
-   // double cdf2 =  1- (a.transpose() * v.norm() * V * ((100*H1).exp())*e1);
-   // std::cout << cdf2 << std::endl;
-   // std::cout << V  << std::endl;
-   // std::cout << "------------------"  << std::endl;
-   // std::cout << (v.norm())<< std::endl;
-   // std::cout << "------------------"  << std::endl;    
-    // // MatrixXd a2 = matCal(A, a, 100);
-
-    
-
-
-    // MatrixXd Vm = V.topRows(10);
-
-    // MatrixXd T1 = (V.transpose()*V).inverse();
-    // MatrixXd T2 = (Vm*Vm.transpose());
-    // MatrixXd T3 = Vm*((Vm.transpose()*Vm).inverse()) * (Vm.transpose());
-    // // std::cout << (V*((V.transpose()*V).inverse()) * (V.transpose()) * a2 * v) << std::endl;
-    // std::cout << Vm << std::endl;
-
-    // std::cout << (a2 * v) << std::endl;
-
-
-
-
-
-    // std::cout << V * ((V.transpose()*V).inverse()) * V.transpose() << std::endl;
-    // std::cout<< "-----------------------------" <<std::endl;
-
-    // std::cout<< v.norm()* V*(V.transpose()*V).inverse()* V.transpose() * a2 *V * e1 <<std::endl;
-    // std::cout<< "-----------------------------" <<std::endl;
-    // std::cout<< V.transpose() <<std::endl;
-    // std::cout<< "-----------------------------" <<std::endl;
-    // std::cout<< V.transpose() * V <<std::endl;
-
-
-
-
-    // std::cout<< H1.exp() <<std::endl;
-    // std::cout<< "-----------------------------" <<std::endl;
-    // std::cout << v.norm() << std::endl;
-    // std::cout << (100*H1).exp() << std::endl;
-    // std::cout << "-----------------------------" << std::endl;
-    // MatrixXd x =  v.norm() * V * ((100*H1).exp());
-    // std::cout << x << std::endl;
-    // std::cout << "-----------------------------" << std::endl;
-    // MatrixXd x1 =  V.transpose() * (A.exp()) * V;
-    // std::cout << "-----------------------------" << std::endl;
-    // std::cout << x1 << std::endl;
-    // std::cout << "-----------------------------" << std::endl;
-    // std::cout << v.norm() * V << std::endl;
-
-
-    // double cdf2 = 1 - cdfCal(A, a, 100);
-    // MatrixXd a2 = matCal(A, a, 100);
-
-    // std::cout << a2 << std::endl;
-
-
-
-
-
 // EIGEN optimizer from zhihu:   -mavx -mfma
 // g++ -O0 -std=c++11 -g  newArondi.cpp -o newArnoldi
+
+// Compile with this one!!
 // g++ -O3 -std=c++11 -g  -march=native newArondi.cpp -o newArnoldi
