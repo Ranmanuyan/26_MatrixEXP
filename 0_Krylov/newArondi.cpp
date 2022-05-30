@@ -102,9 +102,12 @@ MatrixXd readMatrix(const char *filename){
 int main(int argc, char const *argv[]){
 
     // read matrix data from file
-    MatrixXd A = readMatrix("Mat169.txt");
+    MatrixXd A = readMatrix("Mat31.txt");
     int n = A.cols();
-    int k = n/2;
+    int k = n;
+    if(n>100){
+        k = n/2;
+    }
 
     VectorXd a(n);
     a.setZero();
@@ -129,7 +132,7 @@ int main(int argc, char const *argv[]){
 
    // The EIGEN Version to calculate the cdf of 100.
    std::chrono::steady_clock::time_point begin1 = std::chrono::steady_clock::now();
-   double cdf = cdfCal(A, a, 450);
+   double cdf = cdfCal(A, a, 370);
    std::chrono::steady_clock::time_point end1 = std::chrono::steady_clock::now();
    std::cout << "Time Costs EXPM = " << std::chrono::duration_cast<std::chrono::microseconds>(end1 - begin1).count() << "[microseconds]" << std::endl;
    std::cout << cdf << std::endl;
@@ -155,7 +158,7 @@ int main(int argc, char const *argv[]){
    // here we have (k+1 * k), H_(k+1, k)==?
    
    MatrixXd H1 = H.topRows(k);
-   double cdf2 =  1- (v.norm() * V *(((450*H1).exp())* e1))(0);
+   double cdf2 =  1- (v.norm() * V *(((370*H1).exp())* e1))(0);
    std::chrono::steady_clock::time_point end2 = std::chrono::steady_clock::now();
    std::cout << "Time Costs Krylov= " << std::chrono::duration_cast<std::chrono::microseconds>(end2 - begin2).count() << "[microseconds]" << std::endl;
    std::cout << cdf2 << std::endl;
