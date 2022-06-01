@@ -238,7 +238,7 @@ MatrixXd readMatrix(const char *filename){
 int main(int argc, char const *argv[]){
 
     // read matrix data from file
-    MatrixXd A = readMatrix("Mat25.txt");
+    MatrixXd A = readMatrix("Mat31.txt");
     int n = A.cols();
 
     VectorXd a(n);

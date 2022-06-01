@@ -1,3 +1,11 @@
 README
 
 This is a repository for the summary of matrix exponential operation, which used for cdf calculation of phase-type distribution.
+
+
+In the Krylov folder,  two approaches are provided, the first one is Arnoldi algorithm, referred from the book of Stewart, Chapter 7, page...
+The second one is expv, which translated from Matlab algorithm expv, referred from ...
+the expv.m file is provided also.
+
+In CAM folder, CAM 3_2 is written based on the literature.
+and matlab version is provided also.
